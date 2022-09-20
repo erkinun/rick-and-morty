@@ -1,32 +1,104 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
+import { useQuery, QueryClient } from "@tanstack/react-query";
+
+import { request, gql } from "graphql-request";
+
 import "./App.css";
 
+// TODO add eslintrc with single quotes
+// TODO build a character card
+// TODO build a comparison view
+// TODO search chars
+// TODO view locations
+// TODO view episodes
+// TODO relations between chars, locations, episodes
+
+const queryClient = new QueryClient();
+
+const endpoint = "https://rickandmortyapi.com/graphql";
+const useChars = () => {
+  return useQuery(["posts"], async () => {
+    const { characters } = await request(
+      endpoint,
+      gql`
+        {
+          characters {
+            info {
+              count
+              pages
+              next
+              prev
+            }
+            results {
+              id
+              name
+              image
+              status
+              origin {
+                id
+              }
+            }
+          }
+        }
+      `
+    );
+    return characters;
+  });
+};
+
+const query = gql`
+  {
+    characters {
+      info {
+        count
+        pages
+        next
+        prev
+      }
+      results {
+        id
+        name
+        image
+        status
+        origin {
+          id
+        }
+      }
+    }
+  }
+`;
+
+request("https://rickandmortyapi.com/graphql", query).then((data) =>
+  console.log(data)
+);
+
 function App() {
-  const [count, setCount] = useState(0);
+  const { status, data, error, isFetching } = useChars();
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
       <h1>Rick and Morty</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div>
+        <h1>Characters</h1>
+        <div>
+          {status === "loading" ? (
+            "Loading..."
+          ) : status === "error" ? (
+            <span>Error: {error.message}</span>
+          ) : (
+            <>
+              {console.log(data)}
+              <div>
+                {data?.results.map((character) => (
+                  <p key={character.id}>
+                    <a href="#">{character.name}</a>
+                  </p>
+                ))}
+              </div>
+              <div>{isFetching ? "Background Updating..." : " "}</div>
+            </>
+          )}
+        </div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
   );
 }
