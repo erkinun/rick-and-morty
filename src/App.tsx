@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import './App.css';
 import Character from './components/Character';
@@ -16,11 +16,16 @@ import useChars from './queries/chars';
 
 function App() {
   const [name, setName] = useState('rick');
-  const { status, data, error, isFetching } = useChars(name);
+  const [page, setPage] = useState(1);
+  const { status, data, error, isFetching } = useChars(name, page);
 
   const onSearch = (value: string) => {
     setName(value);
   };
+
+  useEffect(() => {
+    setPage(1);
+  }, [name]);
 
   return (
     <div className="App">
@@ -45,13 +50,16 @@ function App() {
             <span>Error: {error.message}</span>
           ) : (
             <>
-              <div>
+              <ul>
                 {data?.results.map((character) => (
-                  <p key={character.id}>
+                  <li key={character.id}>
                     <Character character={character} />
-                  </p>
+                  </li>
                 ))}
-              </div>
+                {data?.info?.next && (
+                  <button onClick={() => setPage(data.info.next)}>Next</button>
+                )}
+              </ul>
               <div>{isFetching ? 'Background Updating...' : ' '}</div>
             </>
           )}

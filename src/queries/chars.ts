@@ -2,13 +2,13 @@ import { useQuery } from '@tanstack/react-query';
 import { request, gql } from 'graphql-request';
 
 const endpoint = 'https://rickandmortyapi.com/graphql';
-const useChars = (name = 'rick') => {
-  return useQuery(['characters', name], async () => {
+const useChars = (name = 'rick', page: number) => {
+  return useQuery(['characters', name, page], async () => {
     const { characters } = await request(
       endpoint,
       gql`
-        query search($name: String) {
-          characters(filter: { name: $name }) {
+        query search($page: Int, $name: String) {
+          characters(page: $page, filter: { name: $name }) {
             info {
               count
               pages
@@ -37,7 +37,7 @@ const useChars = (name = 'rick') => {
           }
         }
       `,
-      { name },
+      { name, page },
     );
     return characters;
   });
