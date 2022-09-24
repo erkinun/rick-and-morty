@@ -6,13 +6,11 @@ import useChars from './queries/chars';
 
 // TODO add eslintrc for unused variables
 // TODO lint-staged
-// TODO build a character card
 // TODO build a comparison view
 // TODO view locations
 // TODO view episodes
 // TODO relations between chars, locations, episodes
 // TODO deploy to production
-// TODO add pagination
 
 function App() {
   const [name, setName] = useState('rick');

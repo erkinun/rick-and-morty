@@ -4,7 +4,7 @@ interface Location {
   type: string;
 }
 
-interface CharacterDetails {
+export interface CharacterDetails {
   id: string;
   name: string;
   image: string;
