@@ -14,5 +14,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       <App />
     </React.StrictMode>
     <ReactQueryDevtools initialIsOpen={false} />
-  </QueryClientProvider>
+  </QueryClientProvider>,
 );

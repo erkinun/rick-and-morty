@@ -1,27 +1,26 @@
-import { useQuery, QueryClient } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
-import { request, gql } from "graphql-request";
+import { request, gql } from 'graphql-request';
 
-import "./App.css";
+import './App.css';
 
-// TODO add eslintrc with single quotes
+// TODO add eslintrc for unused variables
+// TODO search chars
 // TODO build a character card
 // TODO build a comparison view
-// TODO search chars
+
 // TODO view locations
 // TODO view episodes
 // TODO relations between chars, locations, episodes
 
-const queryClient = new QueryClient();
-
-const endpoint = "https://rickandmortyapi.com/graphql";
+const endpoint = 'https://rickandmortyapi.com/graphql';
 const useChars = () => {
-  return useQuery(["posts"], async () => {
+  return useQuery(['posts'], async () => {
     const { characters } = await request(
       endpoint,
       gql`
-        {
-          characters {
+        query search($name: String) {
+          characters(filter: { name: $name }) {
             info {
               count
               pages
@@ -39,37 +38,12 @@ const useChars = () => {
             }
           }
         }
-      `
+      `,
+      { name: 'morty' },
     );
     return characters;
   });
 };
-
-const query = gql`
-  {
-    characters {
-      info {
-        count
-        pages
-        next
-        prev
-      }
-      results {
-        id
-        name
-        image
-        status
-        origin {
-          id
-        }
-      }
-    }
-  }
-`;
-
-request("https://rickandmortyapi.com/graphql", query).then((data) =>
-  console.log(data)
-);
 
 function App() {
   const { status, data, error, isFetching } = useChars();
@@ -78,11 +52,16 @@ function App() {
     <div className="App">
       <h1>Rick and Morty</h1>
       <div>
-        <h1>Characters</h1>
+        <h2>Characters</h2>
+        <section>
+          <label htmlFor="search">
+            Search <input name="search" type="text" />
+          </label>
+        </section>
         <div>
-          {status === "loading" ? (
-            "Loading..."
-          ) : status === "error" ? (
+          {status === 'loading' ? (
+            'Loading...'
+          ) : status === 'error' ? (
             <span>Error: {error.message}</span>
           ) : (
             <>
@@ -94,7 +73,7 @@ function App() {
                   </p>
                 ))}
               </div>
-              <div>{isFetching ? "Background Updating..." : " "}</div>
+              <div>{isFetching ? 'Background Updating...' : ' '}</div>
             </>
           )}
         </div>
