@@ -1,52 +1,26 @@
-import { useQuery } from '@tanstack/react-query';
-
-import { request, gql } from 'graphql-request';
+import { useState } from 'react';
 
 import './App.css';
+import Character from './components/Character';
+import useChars from './queries/chars';
 
 // TODO add eslintrc for unused variables
-// TODO search chars
+// TODO lint-staged
 // TODO build a character card
 // TODO build a comparison view
-
 // TODO view locations
 // TODO view episodes
 // TODO relations between chars, locations, episodes
-
-const endpoint = 'https://rickandmortyapi.com/graphql';
-const useChars = () => {
-  return useQuery(['posts'], async () => {
-    const { characters } = await request(
-      endpoint,
-      gql`
-        query search($name: String) {
-          characters(filter: { name: $name }) {
-            info {
-              count
-              pages
-              next
-              prev
-            }
-            results {
-              id
-              name
-              image
-              status
-              origin {
-                id
-              }
-            }
-          }
-        }
-      `,
-      { name: 'morty' },
-    );
-    return characters;
-  });
-};
+// TODO deploy to production
+// TODO add pagination
 
 function App() {
-  const { status, data, error, isFetching } = useChars();
+  const [name, setName] = useState('rick');
+  const { status, data, error, isFetching } = useChars(name);
+
+  const onSearch = (value: string) => {
+    setName(value);
+  };
 
   return (
     <div className="App">
@@ -55,7 +29,13 @@ function App() {
         <h2>Characters</h2>
         <section>
           <label htmlFor="search">
-            Search <input name="search" type="text" />
+            Search{' '}
+            <input
+              defaultValue={name}
+              onBlur={(e) => onSearch(e.target.value)}
+              name="search"
+              type="text"
+            />
           </label>
         </section>
         <div>
@@ -65,11 +45,10 @@ function App() {
             <span>Error: {error.message}</span>
           ) : (
             <>
-              {console.log(data)}
               <div>
                 {data?.results.map((character) => (
                   <p key={character.id}>
-                    <a href="#">{character.name}</a>
+                    <Character character={character} />
                   </p>
                 ))}
               </div>
