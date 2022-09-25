@@ -19,9 +19,6 @@ const Location = ({
           </span>
         </section>
         <section className="Location__residents">
-          {
-            // TODO make the residents bit nicer, show images
-          }
           <h4>{residents.length} Residents</h4>
           <div className="Location__residents__flex">
             {residents.map((resident) => (

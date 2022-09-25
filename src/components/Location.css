@@ -3,6 +3,7 @@
   height: 10em;
   object-fit: cover;
   border-radius: 50%;
+  cursor: pointer;
 }
 
 .Location__residents__flex {

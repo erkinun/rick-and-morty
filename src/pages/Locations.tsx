@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Character from '../components/Character';
 import Location from '../components/Location';
+import NavBar from '../components/NavBar';
 import useChars from '../queries/chars';
 import useLocations from '../queries/locations';
 
@@ -59,4 +60,11 @@ const Locations = () => {
   );
 };
 
-export default Locations;
+export default () => {
+  return (
+    <div>
+      <NavBar />
+      <Locations />
+    </div>
+  );
+};
