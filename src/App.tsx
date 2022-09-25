@@ -54,10 +54,10 @@ function App() {
                     <Character character={character} />
                   </li>
                 ))}
-                {data?.info?.next && (
-                  <button onClick={() => setPage(data.info.next)}>Next</button>
-                )}
               </ul>
+              {data?.info?.next && (
+                <button onClick={() => setPage(data.info.next)}>Next</button>
+              )}
               <div>{isFetching ? 'Background Updating...' : ' '}</div>
             </>
           )}
