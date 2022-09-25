@@ -8,7 +8,7 @@ interface EpisodeProps {
 
 // TODO add a click to show toggle for the characters
 const Episode = ({
-  episode: { name, air_date, episode, characters },
+  episode: { name, air_date, episode, characters = [] },
 }: EpisodeProps) => {
   return (
     <section className="Location">

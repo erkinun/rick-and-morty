@@ -7,7 +7,7 @@ interface LocationProps {
 }
 
 const Location = ({
-  location: { name, type, dimension, residents },
+  location: { name, type, dimension, residents = [] },
 }: LocationProps) => {
   return (
     <section className="Location">
