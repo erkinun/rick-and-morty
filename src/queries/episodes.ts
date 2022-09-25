@@ -2,12 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import { request, gql } from 'graphql-request';
 import { CharacterDetails } from '../components/Character';
 
-export interface LocationDetails {
+export interface EpisodeDetails {
   id: string;
   name: string;
-  type: string;
-  dimension: string;
-  residents: Array<CharacterDetails>;
+  air_date: string;
+  episode: string;
+  characters: Array<CharacterDetails>;
 }
 
 interface InfoResult {
@@ -17,21 +17,21 @@ interface InfoResult {
     next: number;
     prev: number;
   };
-  results: Array<LocationDetails>;
+  results: Array<EpisodeDetails>;
 }
 
-interface Locations {
-  locations: InfoResult;
+interface Episodes {
+  episodes: InfoResult;
 }
 
 const endpoint = 'https://rickandmortyapi.com/graphql';
-const useLocations = (name = 'earth', page: number) => {
+const useEpisodes = (name = '', page: number) => {
   return useQuery<InfoResult, Error>(['characters', name, page], async () => {
-    const { locations } = await request<Locations>(
+    const { episodes } = await request<Episodes>(
       endpoint,
       gql`
-        query searchLocations($page: Int, $name: String) {
-          locations(page: $page, filter: { name: $name }) {
+        query searchEpisodes($page: Int, $name: String) {
+          episodes(page: $page, filter: { name: $name }) {
             info {
               count
               pages
@@ -41,9 +41,9 @@ const useLocations = (name = 'earth', page: number) => {
             results {
               id
               name
-              type
-              dimension
-              residents {
+              air_date
+              episode
+              characters {
                 id
                 name
                 image
@@ -68,8 +68,8 @@ const useLocations = (name = 'earth', page: number) => {
       `,
       { name, page },
     );
-    return locations;
+    return episodes;
   });
 };
 
-export default useLocations;
+export default useEpisodes;

@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react';
+import Episode from '../components/Episode';
 import Location from '../components/Location';
 import NavBar from '../components/NavBar';
-import useLocations from '../queries/locations';
+import useEpisodes from '../queries/episodes';
 
 // TODO looks like these could be shared between pages?
-const Locations = () => {
-  const [name, setName] = useState('earth');
+const Episodes = () => {
+  const [name, setName] = useState('');
   const [page, setPage] = useState(1);
-  const { status, data, error, isFetching } = useLocations(name, page);
+  const { status, data, error, isFetching } = useEpisodes(name, page);
 
   const onSearch = (value: string) => {
     setName(value);
@@ -20,7 +21,7 @@ const Locations = () => {
     <div className="App">
       <h1>Rick and Morty</h1>
       <div>
-        <h2>Locations</h2>
+        <h2>Episodes</h2>
         <section>
           <label htmlFor="search">
             Search{' '}
@@ -40,9 +41,9 @@ const Locations = () => {
           ) : (
             <>
               <ul>
-                {data?.results.map((location) => (
-                  <li key={location.id}>
-                    <Location location={location} />
+                {data?.results.map((episode) => (
+                  <li key={episode.id}>
+                    <Episode episode={episode} />
                   </li>
                 ))}
               </ul>
@@ -62,7 +63,7 @@ export default () => {
   return (
     <div>
       <NavBar />
-      <Locations />
+      <Episodes />
     </div>
   );
 };

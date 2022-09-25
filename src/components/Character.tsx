@@ -20,7 +20,6 @@ interface CharacterProps {
   character: CharacterDetails;
 }
 
-// TODO click out to character page?
 const Character = ({
   character: {
     name,

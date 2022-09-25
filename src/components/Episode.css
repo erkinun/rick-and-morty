@@ -1,0 +1,18 @@
+.Location__chars img {
+  width: 10em;
+  height: 10em;
+  object-fit: cover;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.Location__chars__flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.Location__chars__flex > div {
+  flex-basis: 10em;
+}

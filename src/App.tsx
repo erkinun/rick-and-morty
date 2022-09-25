@@ -1,11 +1,7 @@
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-  Link,
-} from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import './App.css';
+import Episodes from './pages/Episodes';
 import ErrorPage from './pages/ErrorPage';
 import Locations from './pages/Locations';
 import Root from './pages/Root';
@@ -13,10 +9,9 @@ import Root from './pages/Root';
 // TODO add eslintrc for unused variables
 // TODO lint-staged
 // TODO build a comparison view
-// TODO view locations
-// TODO view episodes
 // TODO relations between chars, locations, episodes
-// TODO deploy to production
+// TODO add entity by id page for each category, like click out from a character to see their episodes
+// TODO add advanced search for each category, like status or season for episodes
 
 const router = createBrowserRouter([
   {
@@ -27,6 +22,11 @@ const router = createBrowserRouter([
   {
     path: '/locations',
     element: <Locations />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/episodes',
+    element: <Episodes />,
     errorElement: <ErrorPage />,
   },
 ]);
