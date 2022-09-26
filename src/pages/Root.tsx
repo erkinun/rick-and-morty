@@ -7,7 +7,7 @@ function Root() {
   return (
     <div>
       <NavBar />
-      <Characters />;
+      <Characters />
     </div>
   );
 }
